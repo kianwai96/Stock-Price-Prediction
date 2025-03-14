@@ -2,16 +2,19 @@ from flask import Flask,request, url_for, redirect, render_template
 import pickle
 import numpy as np
 import pandas as pd
-import mysql.connector as connector
+import psycopg2
 from sklearn.preprocessing import StandardScaler
 
 app = Flask(__name__)
 
 model=pickle.load(open('finalized_model.sav','rb'))
 
+db = 'postgresql://db_stock_6t9m_user:UbyvS5mLRBTi7dqExbTVeOBEAxLRCblY@dpg-cv9opbjqf0us73caa3d0-a.singapore-postgres.render.com/db_stock_6t9m'
+
 @app.route('/')
 def home():
-    conn = connector.connect(user='root', password='123456', host='localhost', port='3306', database='my_db')
+    conn = psycopg2.connect(db)
+    conn.autocommit = True
     my_cursor = conn.cursor()
     my_cursor.execute('Select * from price_sentiment')
     result = my_cursor.fetchall()
