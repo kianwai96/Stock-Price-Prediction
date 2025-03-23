@@ -7,7 +7,11 @@ from sklearn.preprocessing import StandardScaler
 
 app = Flask(__name__)
 
-model=pickle.load(open('finalized_model.sav','rb'))
+def load_model():
+    with open("finalized_model.sav", "rb") as f:
+        return pickle.load(f)  # Model loads only per request
+
+#model=pickle.load(open('finalized_model.sav','rb'))
 
 db = 'postgresql://db_stock_6t9m_user:UbyvS5mLRBTi7dqExbTVeOBEAxLRCblY@dpg-cv9opbjqf0us73caa3d0-a.singapore-postgres.render.com/db_stock_6t9m'
 
